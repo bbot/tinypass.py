@@ -38,11 +38,12 @@ function setCookie(name,value,days) {
 function setPass() {
 	setCookie("username", document.forms["frm1"]["username"].value, 364);
 	setCookie("password", document.forms["frm1"]["password"].value, 364);
+	document.location.reload(true)
 }
 </script>
 
 <form id="frm1">
   <p><input name="username" type="text" placeholder="Username">
   <p><input name="password" type="password" placeholder="Password">
-  <p><input type="submit" onClick=setPass()>
+  <p><input type="button" value="Submit" onClick=setPass()>
 </form>
