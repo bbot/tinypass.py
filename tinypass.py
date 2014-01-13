@@ -34,8 +34,7 @@ def index(filename):
         return "bad username or password\n";
 
 def check_password(filename, username, password):
-    pkl_file = open('data.pkl', 'rb')
-    data = pickle.load(pkl_file)
+    data = pickle.load(open('data.pkl', 'rb'))
     try:
         row = data[filename]
     except KeyError:
