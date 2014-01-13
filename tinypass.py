@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 """
-tinypass.py - Minimal, very low security file authentication app
+tinypass.py - Minimal, very low security, file passwording app
 
 Checks unsigned cookies against unsalted passwords stored on disk
 in plaintext; to serve large static files.
@@ -26,11 +26,11 @@ def index(filename):
     username = request.get_cookie("username")
     password = request.get_cookie("password")
     if not username:
-        return "login form\n";
+        return template('login')
     elif (check_password(filename, username, password)):
         return static_file(file, root=HTROOT)
     else:
-        return "bad username or password\n";
+        return template('login', badpassword=badpassword)
 
 def check_password(filename, username, password):
     data = pickle.load(open('users.pkl', 'rb'))
@@ -43,5 +43,5 @@ def check_password(filename, username, password):
     else:
         return False
 
-run(host='localhost', port=8080, debug=True)
+run(host='localhost', port=8081, debug=True)
 
