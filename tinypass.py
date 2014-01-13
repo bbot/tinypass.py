@@ -12,7 +12,7 @@ Written by bbot@bbot.org
 This is free and unencumbered software released into the public domain.
 """
 
-from bottle import route, run, request, abort
+from bottle import route, run, request, abort, static_file
 import pickle
 
 # This is where the static files you're serving should live.
@@ -28,13 +28,12 @@ def index(filename):
     if not username:
         return "login form\n";
     elif (check_password(filename, username, password)):
-        return "match\n";
-#        return static_file(file, root=HTROOT)
+        return static_file(file, root=HTROOT)
     else:
         return "bad username or password\n";
 
 def check_password(filename, username, password):
-    data = pickle.load(open('data.pkl', 'rb'))
+    data = pickle.load(open('users.pkl', 'rb'))
     try:
         row = data[filename]
     except KeyError:
