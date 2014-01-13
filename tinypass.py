@@ -15,6 +15,11 @@ This is free and unencumbered software released into the public domain.
 from bottle import route, run, request, abort, static_file, template
 import pickle
 
+# User database, implemented as a dict of dicts, stored on disk as a
+# pickled object.
+# {'example.zip': {'username': 'alice', 'password': 'hunter2'}}
+USERS = "users.pkl"
+
 # This is where the static files you're serving should live.
 #HTROOT = '/srv/www/'
 
@@ -36,7 +41,7 @@ def index(filename):
         return template('login', badpassword=badpassword)
 
 def check_password(filename, username, password):
-    data = pickle.load(open('users.pkl', 'rb'))
+    data = pickle.load(open(USERS, 'rb'))
     try:
         row = data[filename]
     except KeyError:
