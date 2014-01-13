@@ -29,7 +29,7 @@ def index(filename):
         return template('login')
     elif (check_password(filename, username, password)):
         try:
-            return static_file(file, root=HTROOT)
+            return static_file(filename, root=HTROOT)
         except AttributeError:
             abort(404, "Username and password correct, but the file on the disk was not found. Filename typo?")
     else:
