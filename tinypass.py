@@ -58,6 +58,7 @@ def getusers():
 
 @post('/users')
 def postusers():
+    #this bit will eventually hook into writeusers()
     foobar = request.json
     print foobar
 
