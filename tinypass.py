@@ -12,7 +12,7 @@ Written by bbot@bbot.org
 This is free and unencumbered software released into the public domain.
 """
 
-from bottle import route, run, request, abort, static_file, template
+from bottle import route, run, request, abort, static_file, template, get, post
 import pickle
 
 # User database, implemented as a dict of dicts, stored on disk as a
@@ -50,6 +50,22 @@ def check_password(filename, username, password):
         return True
     else:
         return False
+
+@route('/password')
+def password():
+    """This route just returns pure static HTML, no templating trickery here."""
+    return static_file('password.html', root=HTROOT)
+
+@get('/users')
+def getusers():
+    """This is all you have to do to return a dict as a JSON file!
+    I won't tell you how long it took me to figure that out."""
+    data = pickle.load(open(USERS, 'rb'))
+    return data
+
+@post('/users')
+def postusers():
+        
 
 run(host='localhost', port=8081, debug=True)
 

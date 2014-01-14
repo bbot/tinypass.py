@@ -36,8 +36,8 @@ function setCookie(name,value,days) {
 }
 
 function setPass() {
-	setCookie("username", document.forms["frm1"]["username"].value, 364);
-	setCookie("password", document.forms["frm1"]["password"].value, 364);
+	setCookie("username", document.forms["frm1"]["username"].value);
+	setCookie("password", document.forms["frm1"]["password"].value);
 	document.location.reload(true)
 }
 </script>
