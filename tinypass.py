@@ -12,13 +12,8 @@ Written by bbot@bbot.org
 This is free and unencumbered software released into the public domain.
 """
 
-from bottle import route, run, request, abort, static_file, template, get, post
-import pickle
-
-# User database, implemented as a dict of dicts, stored on disk as a
-# pickled object.
-# {'example.zip': {'username': 'alice', 'password': 'hunter2'}}
-USERS = "users.pkl"
+from bottle import route, run, request, abort, static_file, template, get, post, BaseRequest
+import pickle, os, glob, datetime
 
 # This is where the static files you're serving should live.
 #HTROOT = '/srv/www/'
@@ -53,7 +48,6 @@ def check_password(filename, username, password):
 
 @route('/password')
 def password():
-    """This route just returns pure static HTML, no templating trickery here."""
     return static_file('password.html', root=HTROOT)
 
 @get('/users')
@@ -65,7 +59,22 @@ def getusers():
 
 @post('/users')
 def postusers():
-        
+    print BaseRequest.json()
+
+def readusers():
+    """Reads the most recently created .pkl file in as usersdict."""
+    usersdict = pickle.load(open(max(glob.iglob('*.pkl'), key=os.path.getctime)))
+    return usersdict
+
+def writeusers(usersdict):
+    """Writes usersdict to disk as a pickled object, with the current
+    RFC3339 UTC datetime in the filename."""
+    d = datetime.datetime.utcnow()
+    time = d.isoformat('T') + 'Z'
+    output = open('users' + time + '.pkl', 'wb')
+    pickle.dump(usersdict, output)
+    output.close()
+    
 
 run(host='localhost', port=8081, debug=True)
 
