@@ -36,7 +36,7 @@ def index(filename):
         return template('login', badpassword=badpassword)
 
 def check_password(filename, username, password):
-    data = pickle.load(open(USERS, 'rb'))
+    data = readusers()
     try:
         row = data[filename]
     except KeyError:
@@ -54,12 +54,12 @@ def password():
 def getusers():
     """This is all you have to do to return a dict as a JSON file!
     I won't tell you how long it took me to figure that out."""
-    data = pickle.load(open(USERS, 'rb'))
-    return data
+    return readusers()
 
 @post('/users')
 def postusers():
-    print BaseRequest.json()
+    foobar = request.json
+    print foobar
 
 def readusers():
     """Reads the most recently created .pkl file in as usersdict."""
