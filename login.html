@@ -16,6 +16,12 @@ This is free and unencumbered software released into the public domain.
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" type="text/css" href="style.css">
 
+% if defined('badpassword'):
+<div class="error">
+Bad username or password.
+</div>
+% end
+
 <form id="frm1">
   <p class="field--wrapper"><label for="username">Username</label><input name="username" type="text" placeholder="Username">
   <p class="field--wrapper"><label for="password">Password</label><input name="password" type="password" placeholder="Password">

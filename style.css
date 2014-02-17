@@ -2,26 +2,29 @@ body {
 -webkit-backface-visibility:hidden;
 background-color:#FFFDF0;
 font:2em sans-serif;
-margin:auto;
+margin:5em auto;
 padding:20px;
 max-width:1400px;
 }
 
-form {
-margin-top:5em;
+.error {
+background:#FFBABA;
+color:#D8000C;
+padding:1em;
 }
 
 input {
 font:1em sans-serif;
 }
 
-p {
-line-height:2.1em;
-}
-
 .field--wrapper {
 margin-bottom:20px;
 position:relative;
+line-height:2.1em;
+}
+
+#frm1 {
+margin-left: 100px;
 }
 
 label {
