@@ -21,7 +21,7 @@ import pickle, os, glob, datetime
 # Or you can import them from an external module, if you're being fancy
 from constants import HTROOT
 
-@route('/tinypass/<filename>')
+@route('/<filename>')
 def index(filename):
     username = request.get_cookie("username")
     password = request.get_cookie("password")
@@ -33,6 +33,7 @@ def index(filename):
         except AttributeError:
             abort(404, "Username and password correct, but the file on the disk was not found. Filename typo?")
     else:
+        badpassword = True
         return template('login.html', badpassword=badpassword)
 
 def check_password(filename, username, password):
@@ -49,7 +50,7 @@ def check_password(filename, username, password):
 @get('/password')
 def getpassword():
     """All the intelligence is in the template, go look at that file."""
-    return template('password.html')
+    return template('password.html', usersdict=readusers(), bizz=HTROOT)
 
 @post('/password')
 def postpassword():

@@ -4,12 +4,11 @@ background-color:#FFFDF0;
 font:2em sans-serif;
 margin:auto;
 padding:20px;
-width:700px;
+max-width:1400px;
 }
 
 form {
 margin-top:5em;
-width:500px;
 }
 
 input {
