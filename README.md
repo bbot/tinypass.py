@@ -10,4 +10,4 @@ Requires [bottle.py](http://bottlepy.org/)
 
 Uses [zepto.js](http://zeptojs.com/), a lightweight API-compatible jQuery alternative.
 
-`login.tpl`, `password.tpl` and `tinypass.py` are released under the Unlicense, `float-label.js` is released under the MIT license.
+`login.html`, `password.html` and `tinypass.py` are released under the Unlicense, `float-label.js` is released under the MIT license.

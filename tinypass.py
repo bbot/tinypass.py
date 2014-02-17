@@ -12,7 +12,7 @@ Written by bbot@bbot.org
 This is free and unencumbered software released into the public domain.
 """
 
-from bottle import route, run, request, abort, static_file, template, get, post, BaseRequest
+from bottle import route, run, request, abort, static_file, template, get, post
 import pickle, os, glob, datetime
 
 # This is where the static files you're serving should live.
@@ -33,7 +33,7 @@ def index(filename):
         except AttributeError:
             abort(404, "Username and password correct, but the file on the disk was not found. Filename typo?")
     else:
-        return template('login', badpassword=badpassword)
+        return template('login.html', badpassword=badpassword)
 
 def check_password(filename, username, password):
     data = readusers()
@@ -46,29 +46,23 @@ def check_password(filename, username, password):
     else:
         return False
 
-@route('/password')
-def password():
-    return static_file('password.html', root=HTROOT)
+@get('/password')
+def getpassword():
+    return template('password.html')
 
-@get('/users')
-def getusers():
-    """This is all you have to do to return a dict as a JSON file!
-    I won't tell you how long it took me to figure that out."""
-    return readusers()
+@post('/password')
+def postpassword():
+    return
 
-@post('/users')
-def postusers():
-    #this bit will eventually hook into writeusers()
-    foobar = request.json
-    print foobar
+
 
 def readusers():
-    """Reads the most recently created .pkl file in as usersdict."""
+    """Reads the most recently created .pkl file into memory as `usersdict`."""
     usersdict = pickle.load(open(max(glob.iglob('*.pkl'), key=os.path.getctime)))
     return usersdict
 
 def writeusers(usersdict):
-    """Writes usersdict to disk as a pickled object, with the current
+    """Writes `usersdict` to disk as a pickled object, with the current
     RFC3339 UTC datetime in the filename."""
     d = datetime.datetime.utcnow()
     time = d.isoformat('T') + 'Z'
@@ -76,6 +70,5 @@ def writeusers(usersdict):
     pickle.dump(usersdict, output)
     output.close()
     
-
 run(host='localhost', port=8081, debug=True)
 
