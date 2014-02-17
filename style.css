@@ -1,0 +1,45 @@
+body {
+-webkit-backface-visibility:hidden;
+background-color:#FFFDF0;
+font:2em sans-serif;
+margin:auto;
+padding:20px;
+width:700px;
+}
+
+form {
+margin-top:5em;
+width:500px;
+}
+
+input {
+font:1em sans-serif;
+}
+
+p {
+line-height:2.1em;
+}
+
+.field--wrapper {
+margin-bottom:20px;
+position:relative;
+}
+
+label {
+color:#aaa;
+font-family:sans-serif;
+left:0;
+opacity:0;
+position:absolute;
+top:-13px;
+transition:all .1s linear;
+}
+
+label.on {
+color:#4481C4;
+}
+
+label.show {
+opacity:1;
+top:-1.2em;
+}

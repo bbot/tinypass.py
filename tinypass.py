@@ -48,11 +48,13 @@ def check_password(filename, username, password):
 
 @get('/password')
 def getpassword():
+    """All the intelligence is in the template, go look at that file."""
     return template('password.html')
 
 @post('/password')
 def postpassword():
-    return
+    """Uses POSTed form data to update `usersdict`, then calls `writeusers()`"""
+    
 
 
 
@@ -69,6 +71,16 @@ def writeusers(usersdict):
     output = open('users' + time + '.pkl', 'wb')
     pickle.dump(usersdict, output)
     output.close()
-    
+
+#These two are unfortunately ugly, so I hid them down at the bottom.
+@route('/float-label.js')
+def floatlabel():
+    return static_file('float-label.js', root='.')
+
+@route('/style.css')
+def style():
+    return static_file('style.css', root='.')
+
+#And this just starts the sever.
 run(host='localhost', port=8081, debug=True)
 
