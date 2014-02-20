@@ -55,13 +55,20 @@ def getpassword():
 @post('/password')
 def postpassword():
     """Uses POSTed form data to update `usersdict`, then calls `writeusers()`"""
-    
-
-
+    usersdict = readusers()
+    username = request.forms.get('username')
+    password = request.forms.get('password')
+    filename = request.forms.get('filename')
+    usersdict[filename] = {'username': username, 'password': password}
+    print usersdict
+    writeusers(usersdict)
 
 def readusers():
     """Reads the most recently created .pkl file into memory as `usersdict`."""
-    usersdict = pickle.load(open(max(glob.iglob('*.pkl'), key=os.path.getctime)))
+    try:
+        usersdict = pickle.load(open(max(glob.iglob('*.pkl'), key=os.path.getctime)))
+    except ValueError: #Unless we don't have a user database yet, in which case
+        usersdict = {}
     return usersdict
 
 def writeusers(usersdict):
@@ -82,6 +89,6 @@ def floatlabel():
 def style():
     return static_file('style.css', root='.')
 
-#And this just starts the sever.
+#And this just starts the server.
 run(host='localhost', port=8081, debug=True)
 
