@@ -21,17 +21,20 @@ import pickle, os, glob, datetime
 # Or you can import them from an external module, if you're being fancy
 from constants import HTROOT
 
-@route('/<filename>')
+@get('/<filename>')
 def index(filename):
     username = request.get_cookie("username")
     password = request.get_cookie("password")
     if not username:
         return template('login')
     elif (check_password(filename, username, password)):
-        try:
-            return static_file(filename, root=HTROOT)
-        except AttributeError:
-            abort(404, "Username and password correct, but the file on the disk was not found. Filename typo?")
+        if (filename == 'password.html'):
+            return template('password.html', usersdict=readusers(), bizz=HTROOT)
+        else:
+            try:
+                return static_file(filename, root=HTROOT)
+            except AttributeError:
+                abort(404, "Username and password correct, but the file on the disk was not found. Filename typo?")
     else:
         badpassword = True
         return template('login.html', badpassword=badpassword)
@@ -47,21 +50,25 @@ def check_password(filename, username, password):
     else:
         return False
 
-@get('/password')
-def getpassword():
-    """All the intelligence is in the template, go look at that file."""
-    return template('password.html', usersdict=readusers(), bizz=HTROOT)
-
-@post('/password')
+@post('/password.html')
 def postpassword():
     """Uses POSTed form data to update `usersdict`, then calls `writeusers()`"""
+    print 'foo'
     usersdict = readusers()
-    username = request.forms.get('username')
-    password = request.forms.get('password')
-    filename = request.forms.get('filename')
-    usersdict[filename] = {'username': username, 'password': password}
-    print usersdict
-    writeusers(usersdict)
+    setUsername = request.forms.get('username')
+    setPassword = request.forms.get('password')
+    setFilename = request.forms.get('filename')
+    username = request.get_cookie("username")
+    password = request.get_cookie("password")
+    if (check_password('password.html', username, password)):
+        print 'foo2'
+        usersdict[setFilename] = {'username': setUsername, 'password': setPassword}
+        print usersdict
+        writeusers(usersdict)
+        return template('password.html', usersdict=readusers(), bizz=HTROOT)
+    else:
+        print 'foo3'
+        abort(503, "Bad username or password")
 
 def readusers():
     """Reads the most recently created .pkl file into memory as `usersdict`."""
