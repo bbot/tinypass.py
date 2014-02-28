@@ -40,11 +40,11 @@ def index(filename):
         return template('login.html', badpassword=badpassword)
 
 def check_password(filename, username, password):
-    data = readusers()
+    usersdict = readusers()
     try:
-        row = data[filename]
-    except KeyError:
-        abort(404, "File not found")
+        row = usersdict[filename]
+    except KeyError: #If the filename isn't in the usersdict then it's not passworded, so we want to let anyone see it
+        return True
     if (row['username'] == username and row['password'] == password):
         return True
     else:
@@ -97,5 +97,5 @@ def style():
     return static_file('style.css', root='.')
 
 #And this just starts the server.
-run(host='localhost', port=8081, debug=True)
+run(host='localhost', port=8081, debug=False)
 
