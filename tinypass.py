@@ -53,7 +53,6 @@ def check_password(filename, username, password):
 @post('/password.html')
 def postpassword():
     """Uses POSTed form data to update `usersdict`, then calls `writeusers()`"""
-    print 'foo'
     usersdict = readusers()
     setUsername = request.forms.get('username')
     setPassword = request.forms.get('password')
@@ -61,13 +60,11 @@ def postpassword():
     username = request.get_cookie("username")
     password = request.get_cookie("password")
     if (check_password('password.html', username, password)):
-        print 'foo2'
         usersdict[setFilename] = {'username': setUsername, 'password': setPassword}
         print usersdict
         writeusers(usersdict)
         return template('password.html', usersdict=readusers(), bizz=HTROOT)
     else:
-        print 'foo3'
         abort(503, "Bad username or password")
 
 def readusers():
